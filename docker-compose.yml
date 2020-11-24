@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    environment:
+      - TZ=Asia/Shanghai
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./prometheus-config:/etc/prometheus:rw
+      - ./prometheus-tsdb:/prometheus:rw
+    ports:
+      - "19090:9090"
+  burrow:
+    image: lvcisco/burrow:v1.3.4
+    container_name: burrow
+    volumes:
+      - ${PWD}/docker-config:/etc/burrow/
+      - ${PWD}/tmp:/var/tmp/burrow
+    ports:
+      - 8000:8000
+    restart: always
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    ports:
+      - "3000:3000"

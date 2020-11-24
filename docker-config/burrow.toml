@@ -1,0 +1,34 @@
+[zookeeper]
+servers=[ "172.20.10.7:2181","172.20.10.8:2181","172.20.10.9:2181","172.20.10.18:2181","172.20.10.19:2181" ]
+timeout=10
+root-path="/jd_kafka"
+
+[cluster.local]
+class-name="kafka"
+servers=[ "172.20.10.7:9092","172.20.10.8:9092","172.20.10.9:9092","172.20.10.18:9092","172.20.10.19:9092" ]
+topic-refresh=60
+offset-refresh=30
+
+[consumer.local]
+class-name="kafka"
+cluster="local"
+servers=[ "172.20.10.7:9092","172.20.10.8:9092","172.20.10.9:9092","172.20.10.18:9092","172.20.10.19:9092" ]
+group-denylist="^(console-consumer-|python-kafka-consumer-).*$"
+group-allowlist=".*"
+
+
+[consumer.local_zk]
+class-name="kafka_zk"
+cluster="local"
+servers=[ "172.20.10.7:2181","172.20.10.8:2181","172.20.10.9:2181","172.20.10.18:2181","172.20.10.19:2181" ]
+zookeeper-path="/jd_kafka"
+zookeeper-timeout=30
+group-denylist="^(console-consumer-|python-kafka-consumer-).*$"
+group-allowlist=".*"
+
+
+[httpserver.default]
+address=":8000"
+
+[general]
+access-control-allow-origin="*"
